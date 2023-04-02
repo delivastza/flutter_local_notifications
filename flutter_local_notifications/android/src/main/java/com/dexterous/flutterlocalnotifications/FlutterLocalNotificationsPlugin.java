@@ -1953,11 +1953,12 @@ public class FlutterLocalNotificationsPlugin
 
   private void getNotificationPolicyAccessGranted(Result result) {
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      NotificationManager notificationManager =
-          (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+      NotificationManager notificationManager = (NotificationManager) applicationContext
+          .getSystemService(Context.NOTIFICATION_SERVICE);
       result.success(notificationManager.isNotificationPolicyAccessGranted());
+    } else {
+      result.success(false);
     }
-    result.success(false);
   }
   
   private HashMap<String, Object> getMappedNotificationChannel(NotificationChannel channel) {
