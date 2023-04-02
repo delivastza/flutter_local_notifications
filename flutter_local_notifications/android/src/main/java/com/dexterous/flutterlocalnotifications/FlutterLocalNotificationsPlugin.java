@@ -129,6 +129,7 @@ public class FlutterLocalNotificationsPlugin
   private static final String INITIALIZE_METHOD = "initialize";
   private static final String GET_CALLBACK_HANDLE_METHOD = "getCallbackHandle";
   private static final String ARE_NOTIFICATIONS_ENABLED_METHOD = "areNotificationsEnabled";
+  private static final String GET_NOTIFICATION_POLICY_ACCESS_GRANTED = "getNotificationPolicyAccessGranted";
   private static final String CAN_SCHEDULE_EXACT_NOTIFICATIONS_METHOD =
       "canScheduleExactNotifications";
   private static final String CREATE_NOTIFICATION_CHANNEL_GROUP_METHOD =
@@ -1395,6 +1396,9 @@ public class FlutterLocalNotificationsPlugin
       case ARE_NOTIFICATIONS_ENABLED_METHOD:
         areNotificationsEnabled(result);
         break;
+      case GET_NOTIFICATION_POLICY_ACCESS_GRANTED:
+        getNotificationPolicyAccessGranted(result);
+        break;
       case CAN_SCHEDULE_EXACT_NOTIFICATIONS_METHOD:
         setCanScheduleExactNotifications(result);
         break;
@@ -1721,14 +1725,15 @@ public class FlutterLocalNotificationsPlugin
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
       String permission = Manifest.permission.POST_NOTIFICATIONS;
+      String permission2 = Manifest.permission.ACCESS_NOTIFICATION_POLICY;
       boolean permissionGranted =
-          ContextCompat.checkSelfPermission(mainActivity, permission)
-              == PackageManager.PERMISSION_GRANTED;
+          ContextCompat.checkSelfPermission(mainActivity, permission) == PackageManager.PERMISSION_GRANTED
+              && ContextCompat.checkSelfPermission(mainActivity, permission2) == PackageManager.PERMISSION_GRANTED;
 
       if (!permissionGranted) {
         permissionRequestInProgress = true;
         ActivityCompat.requestPermissions(
-            mainActivity, new String[] {permission}, NOTIFICATION_PERMISSION_REQUEST_CODE);
+            mainActivity, new String[] {permission, permission2}, NOTIFICATION_PERMISSION_REQUEST_CODE);
       } else {
         this.callback.complete(true);
         permissionRequestInProgress = false;
@@ -1946,6 +1951,12 @@ public class FlutterLocalNotificationsPlugin
     }
   }
 
+  private void getNotificationPolicyAccessGranted(Result result) {
+    NotificationManagerCompat notificationManager = getNotificationManager(applicationContext);
+    result.success(notificationManager.isNotificationPolicyAccessGranted());
+    
+  }
+  
   private HashMap<String, Object> getMappedNotificationChannel(NotificationChannel channel) {
     HashMap<String, Object> channelPayload = new HashMap<>();
     if (VERSION.SDK_INT >= VERSION_CODES.O) {
