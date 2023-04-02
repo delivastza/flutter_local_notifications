@@ -535,6 +535,7 @@ class AndroidFlutterLocalNotificationsPlugin
               description: a['description'],
               groupId: a['groupId'],
               showBadge: a['showBadge'],
+              bypassDnd: a['bypassDnd'],
               importance: Importance(a['importance']),
               playSound: a['playSound'],
               sound: _getNotificationChannelSound(a),

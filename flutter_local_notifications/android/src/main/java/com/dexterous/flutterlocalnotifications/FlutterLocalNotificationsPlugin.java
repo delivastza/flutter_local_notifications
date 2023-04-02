@@ -1165,6 +1165,7 @@ public class FlutterLocalNotificationsPlugin
         notificationChannel.setLightColor(notificationChannelDetails.ledColor);
       }
       notificationChannel.setShowBadge(BooleanUtils.getValue(notificationChannelDetails.showBadge));
+      notificationChannel.setBypassDnd(BooleanUtils.getValue(notificationChannelDetails.bypassDnd));
       notificationManager.createNotificationChannel(notificationChannel);
     }
   }
@@ -1953,6 +1954,7 @@ public class FlutterLocalNotificationsPlugin
       channelPayload.put("description", channel.getDescription());
       channelPayload.put("groupId", channel.getGroup());
       channelPayload.put("showBadge", channel.canShowBadge());
+      channelPayload.put("bypassDnd", channel.canBypassDnd());
       channelPayload.put("importance", channel.getImportance());
       Uri soundUri = channel.getSound();
       if (soundUri == null) {

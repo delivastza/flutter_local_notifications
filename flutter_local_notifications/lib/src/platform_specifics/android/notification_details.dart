@@ -124,6 +124,7 @@ class AndroidNotificationDetails {
     this.usesChronometer = false,
     this.chronometerCountDown = false,
     this.channelShowBadge = true,
+    this.channelBypassDnd = false,
     this.showProgress = false,
     this.maxProgress = 0,
     this.progress = 0,
@@ -172,6 +173,12 @@ class AndroidNotificationDetails {
   /// Whether notifications posted to this channel can appear as application
   /// icon badges in a Launcher
   final bool channelShowBadge;
+
+  // Indicates if the notification can bypass do not disturb.
+  ///
+  /// For Android 8.0 or newer, this is tied to the specified channel and cannot
+  /// be changed after the channel has been created for the first time.
+  final bool channelBypassDnd;
 
   /// The importance of the notification.
   final Importance importance;

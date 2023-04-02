@@ -18,6 +18,7 @@ class AndroidNotificationChannel {
     this.enableVibration = true,
     this.vibrationPattern,
     this.showBadge = true,
+    this.bypassDnd = false,
     this.enableLights = false,
     this.ledColor,
   });
@@ -80,4 +81,10 @@ class AndroidNotificationChannel {
   /// Whether notifications posted to this channel can appear as application
   /// icon badges in a Launcher
   final bool showBadge;
+
+  /// Whether the notification posted to this channel can bypass do not disturb
+  ///
+  /// Tied to the specified channel and cannot be changed after the channel has
+  /// been created for the first time.
+  final bool bypassDnd;
 }
