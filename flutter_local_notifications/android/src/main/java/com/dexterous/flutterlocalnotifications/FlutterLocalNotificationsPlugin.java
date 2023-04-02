@@ -2051,8 +2051,12 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private void areNotificationsEnabled(Result result) {
-    NotificationManagerCompat notificationManager = getNotificationManager(applicationContext);
-    result.success(notificationManager.areNotificationsEnabled());
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      NotificationManager notificationManager =
+          (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+      result.success(notificationManager.isNotificationPolicyAccessGranted()); 
+    }
+    result.success(false); 
   }
 
   private void setCanScheduleExactNotifications(Result result) {
