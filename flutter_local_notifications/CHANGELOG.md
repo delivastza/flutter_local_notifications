@@ -1,6 +1,8 @@
 # [14.0.0-delivast.1]
 
 * [Android] Add mapping to setBypassDnd for notification channels that controls if notifications posted to channel can appear during do not disturb
+* [Android] Add mapping to getNotificationPolicyAccessGranted for fetch notification policy. Request permission to access policy
+
 # [14.0.0-dev.3]
 
 * Align Dart SDK constraint with minimum Flutter version (i.e. 3.0)

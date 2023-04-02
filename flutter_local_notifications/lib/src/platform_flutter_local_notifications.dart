@@ -559,6 +559,19 @@ class AndroidFlutterLocalNotificationsPlugin
   Future<bool?> areNotificationsEnabled() async =>
       await _channel.invokeMethod<bool>('areNotificationsEnabled');
 
+  /// Returns whether the app has access to notificaiton policy
+  ///
+  /// API level 23 and newer, this returns whether the
+  /// `ACCESS_NOTIFICATION_POLICY` permission is granted.
+  /// On older versions, it returns whether the notifications 
+  /// are enabled (which they are by default).
+  ///
+  /// See also:
+  ///
+  ///  * https://developer.android.com/reference/android/app/NotificationManager#isNotificationPolicyAccessGranted()
+  Future<bool?> getNotificationPolicyAccessGranted() async =>
+      await _channel.invokeMethod<bool>('getNotificationPolicyAccessGranted');
+
   /// Returns whether the app can schedule exact notifications.
   Future<bool?> canScheduleExactNotifications() async =>
       await _channel.invokeMethod<bool>('canScheduleExactNotifications');
