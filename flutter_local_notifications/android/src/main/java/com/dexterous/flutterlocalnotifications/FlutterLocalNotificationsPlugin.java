@@ -1952,9 +1952,12 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private void getNotificationPolicyAccessGranted(Result result) {
-    NotificationManagerCompat notificationManager = getNotificationManager(applicationContext);
-    result.success(notificationManager.isNotificationPolicyAccessGranted());
-    
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      NotificationManager notificationManager =
+          (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+      result.success(notificationManager.isNotificationPolicyAccessGranted());
+    }
+    result.success(false);
   }
   
   private HashMap<String, Object> getMappedNotificationChannel(NotificationChannel channel) {
@@ -2051,12 +2054,8 @@ public class FlutterLocalNotificationsPlugin
   }
 
   private void areNotificationsEnabled(Result result) {
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      NotificationManager notificationManager =
-          (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-      result.success(notificationManager.isNotificationPolicyAccessGranted()); 
-    }
-    result.success(false); 
+    NotificationManagerCompat notificationManager = getNotificationManager(applicationContext);
+    result.success(notificationManager.areNotificationsEnabled());
   }
 
   private void setCanScheduleExactNotifications(Result result) {
